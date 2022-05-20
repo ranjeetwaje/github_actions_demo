@@ -36,7 +36,7 @@ jobs:
       uses: anothrNick/github-tag-action@1.36.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: false
+        WITH_V: true
         DRY_RUN: true
 
     - name: Publish to GitHub Packages Apache Maven
@@ -46,7 +46,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         echo "<settings><servers><server><id>github</id><username>ranjeetwaje</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
-        echo "mvn versions:set -DnewVersion=${{ steps.tag_version.outputs.new_tag }}-SNAPSHOT"
+        mvn versions:set -DnewVersion=${{ steps.tag_version.outputs.new_tag }}-SNAPSHOT
         mvn deploy
       
     - name: Create a Release
@@ -54,4 +54,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.PAT }}
       with:
-        title: MyRelease
+        title: ${{ steps.tag_version.outputs.new_tag }}
