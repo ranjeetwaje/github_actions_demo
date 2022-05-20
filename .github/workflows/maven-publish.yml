@@ -24,7 +24,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '11'
-        distribution: 'temurin'
+        distribution: 'adopt'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
@@ -33,9 +33,13 @@ jobs:
 
     - name: Publish to GitHub Packages Apache Maven
       # run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
-      run: mvn --batch-mode deploy
+      # run: mvn --batch-mode deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        mkdir ~/.m2
+        echo "<settings><servers><server><id>github</id><username>ranjeetwaje</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+        mvn deploy
 
     - name: Bump version and push tag
       id: tag_version
