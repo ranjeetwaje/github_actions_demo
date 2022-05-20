@@ -38,6 +38,7 @@ jobs:
 
     - name: Build with Maven
       run: |
+        mvn clean install
         mvn versions:set -DnewVersion=${{ steps.tag_version.outputs.new_tag }}-SNAPSHOT
         mvn -B package --file pom.xml
 
