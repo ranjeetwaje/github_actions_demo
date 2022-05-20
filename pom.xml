@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.7</version>
+		<version>2.7.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>cs_demo</artifactId>
+	<artifactId>github_actions_demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cs_demo</name>
+	<name>github_actions_demo</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
@@ -42,7 +42,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/ranjeetwaje/cs_demo</url>
+			<url>https://maven.pkg.github.com/ranjeetwaje/github_actions_demo</url>
 		</repository>
   	</distributionManagement>
 
