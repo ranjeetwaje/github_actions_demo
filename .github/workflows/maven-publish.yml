@@ -31,15 +31,6 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Publish to GitHub Packages Apache Maven
-      # run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
-      # run: mvn --batch-mode deploy
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        echo "<settings><servers><server><id>github</id><username>ranjeetwaje</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
-        mvn deploy
-
     - name: Bump version and push tag
       id: tag_version
       uses: anothrNick/github-tag-action@1.36.0
@@ -47,3 +38,20 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: false
         DRY_RUN: true
+
+    - name: Publish to GitHub Packages Apache Maven
+      # run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      # run: mvn --batch-mode deploy
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "<settings><servers><server><id>github</id><username>ranjeetwaje</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+        echo "mvn versions:set -DnewVersion=${{ steps.tag_version.outputs.new_tag }}-SNAPSHOT"
+        mvn deploy
+      
+    - name: Create a Release
+      uses: elgohr/Github-Release-Action@v4
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      with:
+        title: MyRelease
